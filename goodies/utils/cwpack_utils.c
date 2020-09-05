@@ -27,7 +27,7 @@
 
 
 
-/*******************************   P A C K   **********************************/
+/* ******************************   P A C K   ********************************* */
 
 
 void cw_pack_double_opt (cw_pack_context* pack_context, double d)
@@ -62,7 +62,7 @@ void cw_pack_time_interval (cw_pack_context* pack_context, double ti)
     cw_pack_time(pack_context, sec, nsec);
 }
 
-/*******************************   U N P A C K   ******************************/
+/* ******************************   U N P A C K   ***************************** */
 
 #define NaN 0
 

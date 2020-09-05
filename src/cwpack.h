@@ -30,7 +30,7 @@
 
 
 
-/*******************************   Return Codes   *****************************/
+/* ******************************   Return Codes   **************************** */
 
 #define CWP_RC_OK                         0
 #define CWP_RC_END_OF_INPUT              -1
@@ -48,7 +48,7 @@
 
 
 
-/*******************************   P A C K   **********************************/
+/* ******************************   P A C K   ********************************* */
 
 
 struct cw_pack_context;
@@ -95,7 +95,7 @@ void cw_pack_time (cw_pack_context* pack_context, int64_t sec, uint32_t nsec);
 void cw_pack_insert (cw_pack_context* pack_context, const void* v, uint32_t l);
 
 
-/*****************************   U N P A C K   ********************************/
+/* ****************************   U N P A C K   ******************************* */
 
 
 typedef enum
@@ -116,7 +116,7 @@ typedef enum
     CWP_ITEM_ARRAY                  = 308,
     CWP_ITEM_MAP                    = 309,
     CWP_ITEM_EXT                    = 310,
-    CWP_NOT_AN_ITEM                 = 999,
+    CWP_NOT_AN_ITEM                 = 999
 } cwpack_item_types;
 
 

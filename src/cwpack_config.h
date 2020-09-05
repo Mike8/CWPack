@@ -26,7 +26,7 @@
 
 
 
-/*************************   A L I G N M E N T   ******************************/
+/* ************************   A L I G N M E N T   ***************************** */
 
 /*
  * Some processors demand that integer access is to an even memory address.
@@ -44,7 +44,11 @@
 
 
 
-/*************************   C   S Y S T E M   L I B R A R Y   ****************/
+/* ************************   64 - B I T   A R I T H M A T I C    ************* */
+
+
+
+/* ************************   C   S Y S T E M   L I B R A R Y   *************** */
 
 /*
  * The packer uses "memcpy" to move blobs. If you dont want to load C system library
@@ -55,7 +59,7 @@
 
 
 
-/*************************   B Y T E   O R D E R   ****************************/
+/* ************************   B Y T E   O R D E R   *************************** */
 
 /*
  * The pack/unpack routines are written in three versions: for big endian, for 
@@ -93,7 +97,6 @@
 #endif
 #endif
 
-//#undef COMPILE_FOR_LITTLE_ENDIAN
 
 
 

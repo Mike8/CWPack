@@ -36,7 +36,7 @@
 #endif
 
 
-/*******************************   P A C K   **********************************/
+/* ******************************   P A C K   ********************************* */
 
 
 
@@ -77,11 +77,11 @@
     *(uint64_t*)p =                                         \
         ((uint64_t)(                                        \
         (((((uint64_t)(x)) >> 40) |                         \
-        (((uint64_t)(x)) << 24)) & 0x0000ff000000ff00ULL) | \
+        (((uint64_t)(x)) << 24)) & 0x0000ff000000ff00) |    \
         (((((uint64_t)(x)) >> 24) |                         \
-        (((uint64_t)(x)) << 40)) & 0x00ff000000ff0000ULL) | \
-        (((uint64_t)(x) & 0x000000ff00000000ULL) >>  8) |   \
-        (((uint64_t)(x) & 0x00000000ff000000ULL) <<  8) |   \
+        (((uint64_t)(x)) << 40)) & 0x00ff000000ff0000) |    \
+        (((uint64_t)(x) & 0x000000ff00000000) >>  8) |      \
+        (((uint64_t)(x) & 0x00000000ff000000) <<  8) |      \
         (((uint64_t)(x)) >> 56) |                           \
         (((uint64_t)(x)) << 56)));
 #else
@@ -122,20 +122,23 @@
 
 
 
-#define cw_pack_new_buffer(more)                                                        \
-{                                                                                       \
-    if (!pack_context->handle_pack_overflow)                                            \
-        PACK_ERROR(CWP_RC_BUFFER_OVERFLOW)                                              \
-    int rc = pack_context->handle_pack_overflow (pack_context, (unsigned long)(more));  \
-    if (rc)                                                                             \
-        PACK_ERROR(rc)                                                                  \
+#define cw_pack_new_buffer(more)                                                            \
+{                                                                                           \
+    if (!pack_context->handle_pack_overflow)                                                \
+        PACK_ERROR(CWP_RC_BUFFER_OVERFLOW)                                                  \
+    {                                                                                       \
+        int rc = pack_context->handle_pack_overflow (pack_context, (unsigned long)(more));  \
+        if (rc)                                                                             \
+            PACK_ERROR(rc)                                                                  \
+    }                                                                                       \
 }
 
 
 #define cw_pack_reserve_space(more)                                                         \
 {                                                                                           \
+    uint8_t* nyp;                                                                           \
     p = pack_context->current;                                                              \
-    uint8_t* nyp = p + more;                                                                \
+    nyp = p + more;                                                                         \
     if (nyp > pack_context->end)                                                            \
     {                                                                                       \
         cw_pack_new_buffer(more)                                                            \
@@ -193,7 +196,7 @@
 
 
 
-/*******************************   U N P A C K   **********************************/
+/* ******************************   U N P A C K   ********************************* */
 
 
 
@@ -234,11 +237,11 @@
     tmpu64 = *((uint64_t*)ptr);                                 \
     dest =                     (                                \
         (((tmpu64 >> 40) |                                      \
-        (tmpu64 << 24)) & 0x0000ff000000ff00ULL) |              \
+        (tmpu64 << 24)) & 0x0000ff000000ff00) |                 \
         (((tmpu64 >> 24) |                                      \
-        (tmpu64 << 40)) & 0x00ff000000ff0000ULL) |              \
-        ((tmpu64 & 0x000000ff00000000ULL) >>  8) |              \
-        ((tmpu64 & 0x00000000ff000000ULL) <<  8) |              \
+        (tmpu64 << 40)) & 0x00ff000000ff0000) |                 \
+        ((tmpu64 & 0x000000ff00000000) >>  8) |                 \
+        ((tmpu64 & 0x00000000ff000000) <<  8) |                 \
         (tmpu64 >> 56) |                                        \
         (tmpu64 << 56)                              )
 #else
@@ -283,23 +286,23 @@
 #define cw_unpack_assert_space(more)                                                                \
 {                                                                                                   \
     p = unpack_context->current;                                                                    \
-    uint8_t* nyp = p + more;                                                                        \
+    {uint8_t* nyp = p + more;                                                                       \
     if (nyp > unpack_context->end)                                                                  \
     {                                                                                               \
         if (!unpack_context->handle_unpack_underflow)                                               \
             UNPACK_ERROR(buffer_end_return_code)                                                    \
-        int rc = unpack_context->handle_unpack_underflow (unpack_context, (unsigned long)(more));   \
+        {int rc = unpack_context->handle_unpack_underflow (unpack_context, (unsigned long)(more));  \
         if (rc != CWP_RC_OK)                                                                        \
         {                                                                                           \
             if (rc != CWP_RC_END_OF_INPUT)                                                          \
                 UNPACK_ERROR(rc)                                                                    \
             else                                                                                    \
                 UNPACK_ERROR(buffer_end_return_code)                                                \
-        }                                                                                           \
+        }}                                                                                          \
         p = unpack_context->current;                                                                \
         nyp = p + more;                                                                             \
     }                                                                                               \
-    unpack_context->current = nyp;                                                                  \
+    unpack_context->current = nyp;}                                                                 \
 }
 
 

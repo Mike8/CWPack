@@ -341,7 +341,7 @@
 #define getDDItemFix(len)                                                   \
     cw_unpack_assert_space(len+1);                                          \
     unpack_context->item.type = *(int8_t*)p++;                              \
-    if (unpack_context->item.type == CWP_ITEM_TIMESTAMP)                     \
+    if (unpack_context->item.type == CWP_ITEM_TIMESTAMP)                    \
     {                                                                       \
         if (len == 4)                                                       \
         {                                                                   \
@@ -350,14 +350,15 @@
             unpack_context->item.as.time.tv_nsec = 0;                       \
             return;                                                         \
         }                                                                   \
-        if (len == 8)                                                       \
+        else if (len == 8)                                                  \
         {                                                                   \
             cw_load64(p,tmpu64);                                            \
             unpack_context->item.as.time.tv_sec = tmpu64 & 0x00000003ffffffffL; \
             unpack_context->item.as.time.tv_nsec = tmpu64 >> 34;            \
             return;                                                         \
         }                                                                   \
-        UNPACK_ERROR(CWP_RC_WRONG_TIMESTAMP_LENGTH)                         \
+        else                                                                \
+            UNPACK_ERROR(CWP_RC_WRONG_TIMESTAMP_LENGTH)                     \
     }                                                                       \
     unpack_context->item.as.ext.length = len;                               \
     unpack_context->item.as.ext.start = p;                                  \

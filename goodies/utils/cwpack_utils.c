@@ -118,7 +118,7 @@ int64_t cw_unpack_next_signed64 (cw_unpack_context* unpack_context)
     
     if (unpack_context->item.type == CWP_ITEM_POSITIVE_INTEGER)
     {
-        if (unpack_context->item.as.u64 <= INT64_MAX)
+        if (unpack_context->item.as.u64 <= 9223372036854775807 /*INT64_MAX*/)
             return unpack_context->item.as.i64;
         else
         {

@@ -595,8 +595,6 @@ void cw_unpack_next (cw_unpack_context* unpack_context)
         default:
                     UNPACK_ERROR(CWP_RC_MALFORMED_INPUT)
     }
-    
-    return;
 }
 
 #define cw_skip_bytes(n)                                \
